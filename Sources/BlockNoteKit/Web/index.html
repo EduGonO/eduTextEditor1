@@ -1,13 +1,27 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Edu Editor</title>
-    <link rel="stylesheet" href="https://unpkg.com/@blocknote/core/style.css" />
-    <style>html, body, #root { height: 100%; margin: 0; }</style>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script src="./blocknote.js"></script>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>BlockNote Debug</title>
+  <!-- (Optional) include BlockNote CSS here -->
+  <!-- <link rel="stylesheet" href="blocknote.css" /> -->
+</head>
+<body>
+  <!-- Always-visible test element to confirm HTML is loading -->
+  <p style="color: red; text-align: center; margin-top: 20px;">
+    If you see this text, index.html loaded successfully.
+  </p>
+
+  <!-- Debug container for logging steps -->
+  <div id="debug-log" style="font-family: monospace; padding: 10px; color: #333;"></div>
+
+  <!-- BlockNote root -->
+  <div id="root" style="height: 70vh; border: 1px solid #ccc; margin: 20px;"></div>
+
+  <!-- Step 1: load the bundled BlockNote runtime -->
+  <script src="blocknote.js"></script>
+
+  <!-- Step 2: load your custom index.js (with <p>-injection) -->
+  <script src="index.js"></script>
+</body>
 </html>
