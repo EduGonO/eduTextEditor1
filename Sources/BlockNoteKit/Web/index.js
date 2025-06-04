@@ -1,33 +1,38 @@
-import { BlockNoteEditor } from "@blocknote/core";
+// No import statements
 
-function logDebug(message) {
+function logDebug(msg) {
   const dbg = document.getElementById("debug-log");
-  const p = document.createElement("p");
-  p.textContent = message;
-  dbg.appendChild(p);
+  if (dbg) {
+    const p = document.createElement("p");
+    p.textContent = msg;
+    dbg.appendChild(p);
+  }
 }
 
-logDebug("[A] index.js loaded");
+logDebug("[index.js] loaded (no import)");
 
-logDebug("[B] Creating BlockNoteEditor instance");
-const editor = BlockNoteEditor.create();
+if (typeof BlockNoteEditor === "undefined") {
+  logDebug("[ERROR] BlockNoteEditor is undefined");
+} else {
+  logDebug("[index.js] BlockNoteEditor exists as global");
 
-logDebug("[C] Mounting editor to #root");
-editor.mount(document.getElementById("root"));
+  try {
+    const root = document.getElementById("root");
+    if (!root) throw new Error("No #root div found");
 
-logDebug("[D] Mounted. Initial document: " + JSON.stringify(editor.document));
+    const editor = BlockNoteEditor.create();
+    editor.mount(root);
 
-editor.on("change", () => {
-  const docJSON = JSON.stringify(editor.document);
-  logDebug("[E] Document changed: " + docJSON);
+    editor.on("change", () => {
+      const docJSON = JSON.stringify(editor.document);
+      logDebug("[index.js] Document changed: " + docJSON);
+      if (window.webkit?.messageHandlers?.editor) {
+        window.webkit.messageHandlers.editor.postMessage(docJSON);
+      }
+    });
 
-  window.webkit.messageHandlers.editor.postMessage(docJSON);
-  logDebug("[F] Posted document JSON to Swift");
-});
-
-editor.on("focus", () => {
-  logDebug("[G] Editor focused");
-});
-editor.on("blur", () => {
-  logDebug("[H] Editor blurred");
-});
+    logDebug("[index.js] Editor mounted and change handler attached");
+  } catch (err) {
+    logDebug("[index.js ERROR] " + err.message);
+  }
+}

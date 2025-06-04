@@ -2,26 +2,44 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>BlockNote Debug</title>
-  <!-- (Optional) include BlockNote CSS here -->
-  <!-- <link rel="stylesheet" href="blocknote.css" /> -->
+  <link rel="stylesheet" href="css/inter.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body { margin: 0; padding: 0; }
+    #debug-log {
+      font-family: monospace;
+      background: #f7f7f7;
+      max-height: 20vh;
+      overflow-y: auto;
+      padding: 8px;
+    }
+    #root {
+      height: 70vh;
+      border: 1px solid #ccc;
+      margin: 10px;
+      overflow: auto;
+    }
+    #root:empty::before {
+      content: "focus the editor …";
+      color: #999;
+      font-style: italic;
+      display: block;
+      text-align: center;
+      padding-top: 30px;
+    }
+  </style>
 </head>
 <body>
-  <!-- Always-visible test element to confirm HTML is loading -->
-  <p style="color: red; text-align: center; margin-top: 20px;">
-    If you see this text, index.html loaded successfully.
+  <p style="color: red; text-align: center; margin: 8px 0;">
+    index.html loaded successfully.
   </p>
+  <div id="debug-log"></div>
+  <div id="root"></div>
 
-  <!-- Debug container for logging steps -->
-  <div id="debug-log" style="font-family: monospace; padding: 10px; color: #333;"></div>
-
-  <!-- BlockNote root -->
-  <div id="root" style="height: 70vh; border: 1px solid #ccc; margin: 20px;"></div>
-
-  <!-- Step 1: load the bundled BlockNote runtime -->
+  <!-- MOVE SCRIPTS HERE -->
   <script src="blocknote.js"></script>
-
-  <!-- Step 2: load your custom index.js (with <p>-injection) -->
   <script src="index.js"></script>
 </body>
 </html>
